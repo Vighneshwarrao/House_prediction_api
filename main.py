@@ -19,12 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.head('/')
-async def root_head():
-    return {}
-@app.get('/')
+@app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
 def hello():
-    return {"message":"Hello"}
+    # GET returns JSON body; HEAD will get the same status + headers but no body (server handles it)
+    return {"message": "Hello World !", "status": "ok"}
 
 @app.get('/predict')
 def predict_price(location : str, sqft : float, bath : float, bhk : float, area_type : int):
